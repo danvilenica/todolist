@@ -6,11 +6,11 @@ const TodoList = () => {
     const { todos, toggleTodo } = React.useContext(TodoContext) as ContextType;
 
     return (
-        <div>
-            {todos.map((todo:ITodo)=>{
+        <>
+            {todos.map((todo:ITodo)=>(
                 <Todo key={todo.id} todo={todo} toggleTodo={toggleTodo}/>
-            })}
-        </div>
+            ))}
+        </>
     );
 };
 
