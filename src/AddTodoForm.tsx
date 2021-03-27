@@ -1,24 +1,37 @@
-import React, { ChangeEvent, FormEvent, useState } from "react";
+import React from "react";
+import { TodoContext } from "./Store";
 
-interface AddTodoFormProps{
-    addTodo: AddTodo
-}
 
-export const AddTodoForm: React.FC<AddTodoFormProps> = ({addTodo}) => {
-    const [newTodo, setNewTodo] = useState("");
-    const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-        setNewTodo(e.target.value);
+const AddTodoForm: React.FC = () => {
+    const { addTodo } = React.useContext(TodoContext) as ContextType;
+    const [newTodo, setNewTodo] = React.useState("");
+
+    const handleChange = (e: React.FormEvent<HTMLInputElement>): void => {
+        setNewTodo(e.currentTarget.value);
     };
-    const handleSubmit=(e: FormEvent<HTMLButtonElement>)=>{
+
+    const handleSubmit = (e: React.FormEvent, newTodo: ITodo | any) => {
         e.preventDefault();
-        addTodo(newTodo);
+        const todo: ITodo = {
+            id: 1,
+            text: newTodo,
+            completed: false
+        }
+        addTodo(todo);
         setNewTodo("");
-    }
+    };
 
     return (
-        <form>
-            <input type="text" value={newTodo} onChange={handleChange}/>
-            <button type="submit" onClick={handleSubmit}>Add Todo</button>
+        <form className="Form" onSubmit={(e) => handleSubmit(e, newTodo)}>
+          <div>
+            <div>
+              <label htmlFor="text">Task</label>
+              <input onChange={handleChange} type="text" id="text" />
+            </div>
+          </div>
+          <button disabled={newTodo === undefined ? true : false}>Add Todo</button>
         </form>
-    );
-};
+      );
+}
+
+export default AddTodoForm;

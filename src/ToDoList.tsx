@@ -1,17 +1,17 @@
 import React from "react";
-import { ToDoListItem } from "./ToDoListItem";
+import { TodoContext } from "./Store";
+import Todo from "./Todo";
 
-interface TodoListProps {
-    todos: Array<Todo>;
-    toggleTodo: ToggleTodo;
-}
+const TodoList = () => {
+    const { todos, toggleTodo } = React.useContext(TodoContext) as ContextType;
 
-export const TodoList: React.FC<TodoListProps> = ({ todos, toggleTodo }) => {
     return (
-        <ul>
-            {todos.map(todo => {
-                return <ToDoListItem key={todo.text} todo={todo} toggleTodo={toggleTodo}/>;
+        <div>
+            {todos.map((todo:ITodo)=>{
+                <Todo key={todo.id} todo={todo} toggleTodo={toggleTodo}/>
             })}
-        </ul>
+        </div>
     );
 };
+
+export default TodoList;
